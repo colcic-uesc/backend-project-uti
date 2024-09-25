@@ -11,8 +11,4 @@ public interface ISkillsCRUD : IBaseCRUD<SkillViewModel, SkillViewModel>
     void Delete(int id);
     Skill ReadById(int id);
     IEnumerable<Skill> ReadAll();
-    /*
-    IEnumerable<Skill> GetProjectsByProjectId(int projectId); 
-    IEnumerable<Skill> GetProjectsByStudentId(int studentId); 
-    */
 }

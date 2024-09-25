@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace UescColcicAPI.Services.BD.Interfaces
 {
-    public interface IStudentsCRUD : IBaseCRUD<Student>
+    public interface IStudentsCRUD : IBaseCRUD<StudentViewModel, StudentViewModel>
     {
         
     }
