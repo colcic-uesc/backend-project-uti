@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UescColcicAPI.Core\UescColcicAPI.Core.csproj" />
-    <ProjectReference Include="..\UescColcicAPI.Infra\UescColcicAPI.Infra.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
