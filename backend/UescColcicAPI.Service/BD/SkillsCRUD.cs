@@ -44,7 +44,6 @@ public class SkillsCRUD : ISkillsCRUD
             skill.Title = skillViewModel.Title;
             skill.Description = skillViewModel.Description;
         }
-
     }
 
     public void Delete(int id)
@@ -77,15 +76,4 @@ public class SkillsCRUD : ISkillsCRUD
             Description = skill.Description
         }).ToList();
     }
-    /*
-    public IEnumerable<Skill> GetSkillsByProjectId(int projectId)
-    {
-        return Skills.Where(s => s.ProjectId == projectId).ToList();
-    }
-
-    public IEnumerable<Skill> GetSkillsByStudentId(int studentId)
-    {
-        return Skills.Where(s => s.StudentId == studentId).ToList();
-    }
-    */
 }
