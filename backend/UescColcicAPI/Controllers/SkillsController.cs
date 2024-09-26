@@ -9,7 +9,7 @@ namespace UescColcicAPI.Controllers
 {
 
     [ApiController]
-    [Route("api/[skills]")]
+    [Route("api/[controller]")]
     public class SkillsController : ControllerBase 
     {
         private readonly ISkillsCRUD _skillsCRUD;
@@ -43,7 +43,7 @@ namespace UescColcicAPI.Controllers
                 var skill = _skillsCRUD.ReadById(id);
                 if (skill == null)
                 {
-                    return NotFound($"Project with ID {id} not found.");
+                    return NotFound($"Skill with ID {id} not found.");
                 }
 
                 return Ok(skill);
@@ -55,7 +55,7 @@ namespace UescColcicAPI.Controllers
         }
 
         // POST: api/Skill
-        [HttpPost(Name = "CreateSkillt")]
+        [HttpPost(Name = "CreateSkill")]
         public ActionResult Create([FromBody] SkillViewModel skillViewModel)
         {
             try
@@ -78,7 +78,7 @@ namespace UescColcicAPI.Controllers
                 var existingSkill = _skillsCRUD.ReadById(id);
                 if (existingSkill == null)
                 {
-                    return NotFound($"Project with ID {id} not found.");
+                    return NotFound($"Skill with ID {id} not found.");
                 }
 
                 _skillsCRUD.Update(id, skillViewModel);
