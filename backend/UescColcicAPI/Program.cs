@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IStudentsCRUD, StudentsCRUD>();
 builder.Services.AddScoped<IProfessorsCRUD, ProfessorsCRUD>();
+builder.Services.AddScoped<IProjectsCRUD, ProjectsCRUD>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
