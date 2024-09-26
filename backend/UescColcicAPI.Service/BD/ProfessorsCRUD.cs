@@ -14,7 +14,13 @@ namespace UescColcicAPI.Services.BD
             new Professor { ProfessorId = 2, Name = "Dr. Jane Smith", Email = "jane.smith@university.com", Department = "Mathematics", Bio = "Specialist in algebra and number theory" }
         };
 
-        
+        private readonly IProjectsCRUD _projectsCRUD;
+
+        // Construtor para injeção de dependência do ProjectsCRUD
+        public ProfessorsCRUD(IProjectsCRUD projectsCRUD)
+        {
+            _projectsCRUD = projectsCRUD;
+        }
 
         public int Create(ProfessorViewModel professorViewModel)
         {
@@ -38,7 +44,7 @@ namespace UescColcicAPI.Services.BD
 
         public void Update(int id, ProfessorViewModel professorViewModel)
         {
-            var professor = ReadById(id);
+            var professor = Professors.FirstOrDefault(p => p.ProfessorId == id);
             if (professor is not null)
             {
                 if (Professors.Any(p => p.Email == professorViewModel.Email && p.ProfessorId != id))
@@ -55,7 +61,7 @@ namespace UescColcicAPI.Services.BD
 
         public void Delete(int id)
         {
-            var professor = ReadById(id);
+            var professor = Professors.FirstOrDefault(p => p.ProfessorId == id);
             if (professor != null)
             {
                 Professors.Remove(professor);
@@ -64,14 +70,21 @@ namespace UescColcicAPI.Services.BD
 
         public Professor ReadById(int id)
         {
-            return Professors.FirstOrDefault(p => p.ProfessorId == id);
+            var professor = Professors.FirstOrDefault(p => p.ProfessorId == id);
+            if (professor != null)
+            {
+                // Obtendo projetos associados ao professor
+                professor.Projects = _projectsCRUD.GetProjectsByProfessorId(id);
+            }
+            return professor;
         }
 
         public IEnumerable<Professor> ReadAll()
         {
             return Professors.Select(professor => 
             {
-
+                // Obtendo projetos de cada professor
+                professor.Projects = _projectsCRUD.GetProjectsByProfessorId(professor.ProfessorId);
                 return professor;
             }).ToList();
         }
