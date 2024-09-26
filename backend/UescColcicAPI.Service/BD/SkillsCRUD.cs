@@ -11,7 +11,7 @@ public class SkillsCRUD : ISkillsCRUD
     private static readonly List<Skill> Skills = new()
     {
         new Skill {SkillId = 1, Title = "Machine Learning", Description = "Use of algorithms for systems to learn from data."},
-        new Skill {SkillId = 1, Title = "Smart Contract Development", Description = "Creation and implementation of smart contracts on platforms such as Ethereum."}
+        new Skill {SkillId = 2, Title = "Smart Contract Development", Description = "Creation and implementation of smart contracts on platforms such as Ethereum."}
     };
     public int Create(SkillViewModel skillViewModel)
     {
@@ -33,7 +33,7 @@ public class SkillsCRUD : ISkillsCRUD
 
     public void Update(int id, SkillViewModel skillViewModel)
     {
-        var skill = Find(id);
+        var skill = ReadById(id);
         if (skill != null)
         {
             if (Skills.Any(s => s.Title == skillViewModel.Title && s.SkillId != id))
@@ -48,24 +48,16 @@ public class SkillsCRUD : ISkillsCRUD
 
     public void Delete(int id)
     {
-        var skill = Find(id);
+        var skill = ReadById(id);
         if (skill != null)
         {
             Skills.Remove(skill);
         }
     }
-    private Skill ? Find(int id)
-    {
-        return Skills.FirstOrDefault(s => s.SkillId == id);
-    }
 
     public Skill ReadById(int id)
     {
-        if (Find(id) == null)
-        {
-            throw new InvalidOperationException($"Another skill with the id '{id}' not exists.");
-        }
-        return Find(id);
+        return Skills.FirstOrDefault(s => s.SkillId == id);
     }
     public IEnumerable<Skill> ReadAll()
     {
