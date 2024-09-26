@@ -9,4 +9,5 @@ public class ProjectViewModel
     public string? Type { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    public required int ProfessorId { get; set; }
 }

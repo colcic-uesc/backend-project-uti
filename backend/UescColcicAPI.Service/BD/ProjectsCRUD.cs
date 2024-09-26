@@ -11,8 +11,8 @@ namespace UescColcicAPI.Services.BD
     {
         private static readonly List<Project> Projects = new()
         {
-            new Project { ProjectId = 1, Title = "AI Research", Description = "Research on AI applications",Type= "A", StartDate = DateTime.Now.AddMonths(-6), EndDate = DateTime.Now.AddMonths(6)},
-            new Project { ProjectId = 2, Title = "Blockchain Initiative", Description = "Exploring blockchain for decentralized systems",Type= "B", StartDate = DateTime.Now.AddMonths(-3), EndDate = DateTime.Now.AddMonths(9) }
+            new Project { ProjectId = 1, Title = "AI Research", Description = "Research on AI applications",Type= "A", StartDate = DateTime.Now.AddMonths(-6), EndDate = DateTime.Now.AddMonths(6), ProfessorId = 1 },
+            new Project { ProjectId = 2, Title = "Blockchain Initiative", Description = "Exploring blockchain for decentralized systems",Type= "B", StartDate = DateTime.Now.AddMonths(-3), EndDate = DateTime.Now.AddMonths(9), ProfessorId = 2 }
         };
 
         public int Create(ProjectViewModel projectViewModel)
@@ -23,7 +23,8 @@ namespace UescColcicAPI.Services.BD
                 Description = projectViewModel.Description,
                 Type = projectViewModel.Type,
                 StartDate = projectViewModel.StartDate,
-                EndDate = projectViewModel.EndDate
+                EndDate = projectViewModel.EndDate,
+                ProfessorId = projectViewModel.ProfessorId
             };
 
             if (Projects.Any(p => p.Title == project.Title))
@@ -51,6 +52,7 @@ namespace UescColcicAPI.Services.BD
                 project.Type = projectViewModel.Type;
                 project.StartDate = projectViewModel.StartDate;
                 project.EndDate = projectViewModel.EndDate;
+                project.ProfessorId = projectViewModel.ProfessorId;
             }
         }
 
@@ -74,6 +76,12 @@ namespace UescColcicAPI.Services.BD
             {
                 return professor;
             }).ToList();
+        }
+
+        public IEnumerable<Project> GetProjectsByProfessorId(int professorId)
+        {
+            // Retorna todos os projetos associados ao Professor
+            return Projects.Where(p => p.ProfessorId == professorId).ToList();
         }
     }
 }
