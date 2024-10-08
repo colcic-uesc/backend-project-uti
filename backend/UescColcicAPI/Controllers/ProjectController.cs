@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
-using UescColcicAPI.Services.ViewModel;
-using System;
-using System.Collections.Generic;
+using UescColcicAPI.Services.ViewModels;
+
 
 namespace UescColcicAPI.Controllers
 {

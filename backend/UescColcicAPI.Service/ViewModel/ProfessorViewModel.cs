@@ -1,4 +1,4 @@
-namespace UescColcicAPI.Services.ViewModel;
+namespace UescColcicAPI.Services.ViewModels;
 
 public class ProfessorViewModel
 {

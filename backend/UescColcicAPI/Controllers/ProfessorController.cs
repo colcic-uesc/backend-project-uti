@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
-using UescColcicAPI.Services.ViewModel;
+using UescColcicAPI.Services.ViewModels;
 using System;
 using System.Collections.Generic;
 
