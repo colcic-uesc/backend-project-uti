@@ -1,24 +1,21 @@
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Core;
-using UescColcicAPI.Services.ViewModel;
+using UescColcicAPI.Services.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace UescColcicAPI.Services.BD
 {
     public class ProfessorsCRUD : IProfessorsCRUD
     {
-        private static readonly List<Professor> Professors = new()
-        {
-            new Professor { ProfessorId = 1, Name = "Dr. John Doe", Email = "john.doe@university.com", Department = "Computer Science", Bio = "Expert in AI and machine learning" },
-            new Professor { ProfessorId = 2, Name = "Dr. Jane Smith", Email = "jane.smith@university.com", Department = "Mathematics", Bio = "Specialist in algebra and number theory" }
-        };
-
+        private readonly UescColcicAPIDbContext _context;
         private readonly IProjectsCRUD _projectsCRUD;
 
-        // Construtor para injeção de dependência do ProjectsCRUD
-        public ProfessorsCRUD(IProjectsCRUD projectsCRUD)
+        public ProfessorsCRUD(UescColcicAPIDbContext context, IProjectsCRUD projectsCRUD)
         {
+            _context = context;
             _projectsCRUD = projectsCRUD;
         }
 
@@ -32,22 +29,25 @@ namespace UescColcicAPI.Services.BD
                 Bio = professorViewModel.Bio
             };
 
-            if (Professors.Any(p => p.Email == professor.Email))
+            // Verificar se já existe um professor com o mesmo email
+            if (_context.Professors.Any(p => p.Email == professor.Email))
             {
                 throw new InvalidOperationException($"A professor with email {professor.Email} already exists.");
             }
 
-            professor.ProfessorId = Professors.Any() ? Professors.Max(p => p.ProfessorId) + 1 : 1;
-            Professors.Add(professor);
-            return professor.ProfessorId;
+            _context.Professors.Add(professor);
+            _context.SaveChanges();
+
+            return professor.ProfessorId; // O EF Core atualizará automaticamente o ID após o SaveChanges
         }
 
         public void Update(int id, ProfessorViewModel professorViewModel)
         {
-            var professor = Professors.FirstOrDefault(p => p.ProfessorId == id);
+            var professor = _context.Professors.FirstOrDefault(p => p.ProfessorId == id);
+
             if (professor is not null)
             {
-                if (Professors.Any(p => p.Email == professorViewModel.Email && p.ProfessorId != id))
+                if (_context.Professors.Any(p => p.Email == professorViewModel.Email && p.ProfessorId != id))
                 {
                     throw new InvalidOperationException($"Another professor with email {professorViewModel.Email} already exists.");
                 }
@@ -56,39 +56,47 @@ namespace UescColcicAPI.Services.BD
                 professor.Email = professorViewModel.Email;
                 professor.Department = professorViewModel.Department;
                 professor.Bio = professorViewModel.Bio;
+
+                _context.Professors.Update(professor);
+                _context.SaveChanges();
             }
         }
 
         public void Delete(int id)
         {
-            var professor = Professors.FirstOrDefault(p => p.ProfessorId == id);
+            var professor = _context.Professors.FirstOrDefault(p => p.ProfessorId == id);
+
             if (professor != null)
             {
-                Professors.Remove(professor);
+                _context.Professors.Remove(professor);
+                _context.SaveChanges();
             }
         }
 
         public Professor ReadById(int id)
         {
-            var professor = Professors.FirstOrDefault(p => p.ProfessorId == id);
+            var professor = _context.Professors
+                .Include(p => p.Projects) 
+                .FirstOrDefault(p => p.ProfessorId == id);
+
             if (professor != null)
             {
-                // Obtendo projetos associados ao professor
                 professor.Projects = _projectsCRUD.GetProjectsByProfessorId(id);
             }
+
             return professor;
         }
 
         public IEnumerable<Professor> ReadAll()
         {
-            return Professors.Select(professor => 
-            {
-                // Obtendo projetos de cada professor
-                professor.Projects = _projectsCRUD.GetProjectsByProfessorId(professor.ProfessorId);
-                return professor;
-            }).ToList();
-        }
+            var professors = _context.Professors.ToList();
 
-        
+            foreach (var professor in professors)
+            {
+                professor.Projects = _projectsCRUD.GetProjectsByProfessorId(professor.ProfessorId);
+            }
+
+            return professors;
+        }
     }
 }
