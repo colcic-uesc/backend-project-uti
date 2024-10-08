@@ -3,15 +3,13 @@ using UescColcicAPI.Services.BD.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddDbContext<UescColcicAPIDbContext>();
 
 builder.Services.AddScoped<IStudentsCRUD, StudentsCRUD>();
 builder.Services.AddScoped<IProfessorsCRUD, ProfessorsCRUD>();
 builder.Services.AddScoped<IProjectsCRUD, ProjectsCRUD>();
 builder.Services.AddScoped<ISkillsCRUD, SkillsCRUD>();
-
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
