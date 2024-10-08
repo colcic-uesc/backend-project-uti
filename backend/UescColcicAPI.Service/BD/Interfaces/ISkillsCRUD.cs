@@ -1,6 +1,6 @@
 using System;
 using UescColcicAPI.Core;
-using UescColcicAPI.Services.ViewModel;
+using UescColcicAPI.Services.ViewModels;
 using System.Collections.Generic;
 
 namespace UescColcicAPI.Services.BD.Interfaces;
