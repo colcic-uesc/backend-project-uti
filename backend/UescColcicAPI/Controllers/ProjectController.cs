@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 
 
 namespace UescColcicAPI.Controllers
@@ -53,12 +54,12 @@ namespace UescColcicAPI.Controllers
 
         // POST: api/Projects
         [HttpPost(Name = "CreateProject")]
-        public ActionResult Create([FromBody] ProjectViewModel projectViewModel)
+        public ActionResult Create([FromBody] ProjectInputModel projectInputModel)
         {
             try
             {
-                int newProjectId = _projectsCRUD.Create(projectViewModel);
-                return CreatedAtRoute("GetProject", new { id = newProjectId }, projectViewModel);
+                int newProjectId = _projectsCRUD.Create(projectInputModel);
+                return CreatedAtRoute("GetProject", new { id = newProjectId }, projectInputModel);
             }
             catch (Exception ex)
             {
@@ -68,7 +69,7 @@ namespace UescColcicAPI.Controllers
 
         // PUT: api/Projects/5
         [HttpPut("{id}", Name = "UpdateProject")]
-        public ActionResult Update(int id, [FromBody] ProjectViewModel projectViewModel)
+        public ActionResult Update(int id, [FromBody] ProjectInputModel projectInputModel)
         {
             try
             {
@@ -78,7 +79,7 @@ namespace UescColcicAPI.Controllers
                     return NotFound($"Project with ID {id} not found.");
                 }
 
-                _projectsCRUD.Update(id, projectViewModel);
+                _projectsCRUD.Update(id, projectInputModel);
                 return NoContent();
             }
             catch (Exception ex)

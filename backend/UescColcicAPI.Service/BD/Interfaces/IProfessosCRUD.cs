@@ -1,16 +1,17 @@
 using System;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 
 
 namespace UescColcicAPI.Services.BD.Interfaces;
 
-public interface IProfessorsCRUD : IBaseCRUD<ProfessorViewModel,Professor>
+public interface IProfessorsCRUD : IBaseCRUD<ProfessorViewModel,ProfessorInputModel>
 {
-    int Create(ProfessorViewModel professor);
-    void Update(int id, ProfessorViewModel professor);
+    int Create(ProfessorInputModel professor);
+    void Update(int id, ProfessorInputModel professor);
     void Delete(int id);
-    Professor ReadById(int id);
-    IEnumerable<Professor> ReadAll();
+    ProfessorViewModel ReadById(int id);
+    List<ProfessorViewModel> ReadAll();
     
 }

@@ -19,6 +19,9 @@ namespace UescColcicAPI.Services.BD
          protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
                 modelBuilder.Entity<Professor>().HasKey(x => x.ProfessorId);
+                modelBuilder.Entity<Professor>().HasMany<Project>(x => x.Projects).WithOne(x => x.Professor).HasForeignKey(x => x.ProfessorId);
+
+
                 modelBuilder.Entity<Project>().HasKey(x => x.ProjectId);
                 modelBuilder.Entity<Student>().HasKey(x => x.StudentId);
                 modelBuilder.Entity<Skill>().HasKey(x => x.SkillId);

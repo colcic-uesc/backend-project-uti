@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 using System;
 using System.Collections.Generic;
 
@@ -54,12 +55,12 @@ namespace UescColcicAPI.Controllers
 
         // POST: api/Professors
         [HttpPost(Name = "CreateProfessor")]
-        public ActionResult Create([FromBody] ProfessorViewModel professorViewModel)
+        public ActionResult Create([FromBody] ProfessorInputModel professorInputModel)
         {
             try
             {
-                int newProfessorId = _professorsCRUD.Create(professorViewModel);
-                return CreatedAtRoute("GetProfessor", new { id = newProfessorId }, professorViewModel);
+                int newProfessorId = _professorsCRUD.Create(professorInputModel);
+                return CreatedAtRoute("GetProfessor", new { id = newProfessorId }, professorInputModel);
             }
             catch (Exception ex)
             {
@@ -69,7 +70,7 @@ namespace UescColcicAPI.Controllers
 
         
         [HttpPut("{id}", Name = "UpdateProfessor")]
-        public ActionResult Update(int id, [FromBody] ProfessorViewModel professorViewModel)
+        public ActionResult Update(int id, [FromBody] ProfessorInputModel professorInputModel)
         {
             try
             {
@@ -79,7 +80,7 @@ namespace UescColcicAPI.Controllers
                     return NotFound($"Professor with ID {id} not found.");
                 }
 
-                _professorsCRUD.Update(id, professorViewModel);
+                _professorsCRUD.Update(id, professorInputModel);
                 return NoContent();
             }
             catch (Exception ex)

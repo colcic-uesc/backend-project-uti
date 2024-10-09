@@ -10,6 +10,6 @@ namespace UescColcicAPI.Core
         public string? Department { get; set; }
         public string? Bio { get; set; }
 
-        public IEnumerable<Project>? Projects { get; set; }
+        public virtual List<Project> Projects { get; set; } = null;
     }
 }

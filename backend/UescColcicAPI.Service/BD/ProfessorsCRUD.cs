@@ -1,10 +1,11 @@
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
+using UescColcicAPI.Services.InputModels;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UescColcicAPI.Services.BD
 {
@@ -19,14 +20,14 @@ namespace UescColcicAPI.Services.BD
             _projectsCRUD = projectsCRUD;
         }
 
-        public int Create(ProfessorViewModel professorViewModel)
+        public int Create(ProfessorInputModel professorInputModel)
         {
             var professor = new Professor
             {
-                Name = professorViewModel.Name,
-                Email = professorViewModel.Email,
-                Department = professorViewModel.Department,
-                Bio = professorViewModel.Bio
+                Name = professorInputModel.Name,
+                Email = professorInputModel.Email,
+                Department = professorInputModel.Department,
+                Bio = professorInputModel.Bio
             };
 
             // Verificar se já existe um professor com o mesmo email
@@ -38,27 +39,31 @@ namespace UescColcicAPI.Services.BD
             _context.Professors.Add(professor);
             _context.SaveChanges();
 
-            return professor.ProfessorId; // O EF Core atualizará automaticamente o ID após o SaveChanges
+            return professor.ProfessorId;
         }
 
-        public void Update(int id, ProfessorViewModel professorViewModel)
+        public void Update(int id, ProfessorInputModel professorInputModel)
         {
             var professor = _context.Professors.FirstOrDefault(p => p.ProfessorId == id);
 
             if (professor is not null)
             {
-                if (_context.Professors.Any(p => p.Email == professorViewModel.Email && p.ProfessorId != id))
+                if (_context.Professors.Any(p => p.Email == professorInputModel.Email && p.ProfessorId != id))
                 {
-                    throw new InvalidOperationException($"Another professor with email {professorViewModel.Email} already exists.");
+                    throw new InvalidOperationException($"Another professor with email {professorInputModel.Email} already exists.");
                 }
 
-                professor.Name = professorViewModel.Name;
-                professor.Email = professorViewModel.Email;
-                professor.Department = professorViewModel.Department;
-                professor.Bio = professorViewModel.Bio;
+                professor.Name = professorInputModel.Name;
+                professor.Email = professorInputModel.Email;
+                professor.Department = professorInputModel.Department;
+                professor.Bio = professorInputModel.Bio;
 
                 _context.Professors.Update(professor);
                 _context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Professor with id {id} not found.");
             }
         }
 
@@ -71,32 +76,71 @@ namespace UescColcicAPI.Services.BD
                 _context.Professors.Remove(professor);
                 _context.SaveChanges();
             }
+            else
+            {
+                throw new InvalidOperationException($"Professor with id {id} not found.");
+            }
         }
 
-        public Professor ReadById(int id)
+        public ProfessorViewModel ReadById(int id)
         {
             var professor = _context.Professors
                 .Include(p => p.Projects) 
                 .FirstOrDefault(p => p.ProfessorId == id);
 
-            if (professor != null)
+            if (professor == null)
             {
-                professor.Projects = _projectsCRUD.GetProjectsByProfessorId(id);
+                throw new InvalidOperationException($"Professor with id {id} not found.");
             }
 
-            return professor;
+            
+            return new ProfessorViewModel 
+            {
+                ProfessorId = professor.ProfessorId,
+                Name = professor.Name,
+                Email = professor.Email,
+                Department = professor.Department,
+                Bio = professor.Bio,
+                Projects = professor.Projects.Select(project => new ProjectViewModel
+                {
+                    ProjectId = project.ProjectId,
+                    Title = project.Title,
+                    Description = project.Description,
+                    Type = project.Type,
+                    StartDate = project.StartDate,
+                    EndDate = project.EndDate,
+                    ProfessorId = professor.ProfessorId
+                }).ToList()
+            }; 
         }
 
-        public IEnumerable<Professor> ReadAll()
+       public List<ProfessorViewModel> ReadAll()
+{
+    var professors = _context.Professors.Select(professor => new ProfessorViewModel()
+    {
+        ProfessorId = professor.ProfessorId,
+        Name = professor.Name,
+        Email = professor.Email,
+        Department = professor.Department,
+        Bio = professor.Bio,
+        Projects = professor.Projects.Select(project => new ProjectViewModel()
         {
-            var professors = _context.Professors.ToList();
+            ProjectId = project.ProjectId,
+            Title = project.Title,
+            Description = project.Description,
+            Type = project.Type,
+            StartDate = project.StartDate,
+            EndDate = project.EndDate,
+            ProfessorId = professor.ProfessorId // Adicionando ProfessorId no ProjectViewModel
+        }).ToList()
 
-            foreach (var professor in professors)
-            {
-                professor.Projects = _projectsCRUD.GetProjectsByProfessorId(professor.ProfessorId);
-            }
+    });
 
-            return professors;
-        }
+    return professors.ToList(); // Executa a consulta e retorna a lista
+}
+
+
+        
+
     }
 }

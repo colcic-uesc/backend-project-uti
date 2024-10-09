@@ -1,7 +1,10 @@
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
-
+using UescColcicAPI.Services.InputModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UescColcicAPI.Services.BD
 {
@@ -14,19 +17,25 @@ namespace UescColcicAPI.Services.BD
             _context = context;
         }
 
-        public int Create(ProjectViewModel projectViewModel)
+        public int Create(ProjectInputModel projectInputModel)
         {
+            // Verificar se o professor existe
+            var professor = _context.Professors.FirstOrDefault(p => p.ProfessorId == projectInputModel.ProfessorId);
+            if (professor is null)
+            {
+                throw new InvalidOperationException($"Professor não existe.");
+            }
+
             var project = new Project
             {
-                Title = projectViewModel.Title,
-                Description = projectViewModel.Description,
-                Type = projectViewModel.Type,
-                StartDate = projectViewModel.StartDate,
-                EndDate = projectViewModel.EndDate,
-                ProfessorId = projectViewModel.ProfessorId
+                Title = projectInputModel.Title,
+                Description = projectInputModel.Description,
+                Type = projectInputModel.Type,
+                StartDate = projectInputModel.StartDate,
+                EndDate = projectInputModel.EndDate,
+                ProfessorId = projectInputModel.ProfessorId 
             };
 
-            // Verificar se já existe um projeto com o mesmo título
             if (_context.Projects.Any(p => p.Title == project.Title))
             {
                 throw new InvalidOperationException($"A project with the title '{project.Title}' already exists.");
@@ -35,29 +44,33 @@ namespace UescColcicAPI.Services.BD
             _context.Projects.Add(project);
             _context.SaveChanges();
 
-            return project.ProjectId; // O EF Core atualizará automaticamente o ID após o SaveChanges
+            return project.ProjectId; 
         }
 
-        public void Update(int id, ProjectViewModel projectViewModel)
+        public void Update(int id, ProjectInputModel projectInputModel)
         {
             var project = _context.Projects.FirstOrDefault(p => p.ProjectId == id);
             if (project != null)
             {
                 // Verificar se já existe outro projeto com o mesmo título
-                if (_context.Projects.Any(p => p.Title == projectViewModel.Title && p.ProjectId != id))
+                if (_context.Projects.Any(p => p.Title == projectInputModel.Title && p.ProjectId != id))
                 {
-                    throw new InvalidOperationException($"Another project with the title '{projectViewModel.Title}' already exists.");
+                    throw new InvalidOperationException($"Another project with the title '{projectInputModel.Title}' already exists.");
                 }
 
-                project.Title = projectViewModel.Title;
-                project.Description = projectViewModel.Description;
-                project.Type = projectViewModel.Type;
-                project.StartDate = projectViewModel.StartDate;
-                project.EndDate = projectViewModel.EndDate;
-                project.ProfessorId = projectViewModel.ProfessorId;
+                project.Title = projectInputModel.Title;
+                project.Description = projectInputModel.Description;
+                project.Type = projectInputModel.Type;
+                project.StartDate = projectInputModel.StartDate;
+                project.EndDate = projectInputModel.EndDate;
+                project.ProfessorId = projectInputModel.ProfessorId;
 
                 _context.Projects.Update(project);
                 _context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Project with id {id} not found.");
             }
         }
 
@@ -69,21 +82,50 @@ namespace UescColcicAPI.Services.BD
                 _context.Projects.Remove(project);
                 _context.SaveChanges();
             }
+            else
+            {
+                throw new InvalidOperationException($"Project with id {id} not found.");
+            }
         }
 
         public Project ReadById(int id)
         {
-            return _context.Projects.FirstOrDefault(p => p.ProjectId == id);
+            var project = _context.Projects.FirstOrDefault(p => p.ProjectId == id);
+            if (project == null)
+            {
+                throw new InvalidOperationException($"Project with id {id} not found.");
+            }
+            return project;
         }
 
-        public IEnumerable<Project> ReadAll()
+        public List<ProjectViewModel> ReadAll()
         {
-            return _context.Projects.ToList();
+            var projects = _context.Projects.Select(p => new ProjectViewModel
+            {
+                ProjectId = p.ProjectId,
+                Title = p.Title,
+                Description = p.Description,
+                Type = p.Type,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                ProfessorId = p.ProfessorId
+            });
+            return projects.ToList();
         }
 
-        public IEnumerable<Project> GetProjectsByProfessorId(int professorId)
+        public List<ProjectViewModel> GetProjectsByProfessorId(int professorId)
         {
-            return _context.Projects.Where(p => p.ProfessorId == professorId).ToList();
+            var projects = _context.Projects.Select(p => new ProjectViewModel
+            {
+                ProjectId = p.ProjectId,
+                Title = p.Title,
+                Description = p.Description,
+                Type = p.Type,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                ProfessorId = p.ProfessorId
+            });
+            return projects.Where(p => p.ProfessorId == professorId).ToList();
         }
     }
 }

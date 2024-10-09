@@ -10,8 +10,9 @@ namespace UescColcicAPI.Core
         public string? Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
-        public Professor? Professor { get; set; }
-        public required int ProfessorId { get; set; }
+        
+        
+        public int ProfessorId { get; set; }
+        public virtual Professor Professor { get; set; }
     }
 }
