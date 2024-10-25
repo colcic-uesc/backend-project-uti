@@ -39,11 +39,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var project = _projectsCRUD.ReadById(id);
-                if (project == null)
-                {
-                    return NotFound($"Project with ID {id} not found.");
-                }
-
                 return Ok(project);
             }
             catch (Exception ex)
@@ -74,12 +69,8 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var existingProject = _projectsCRUD.ReadById(id);
-                if (existingProject == null)
-                {
-                    return NotFound($"Project with ID {id} not found.");
-                }
-
                 _projectsCRUD.Update(id, projectInputModel);
+
                 return NoContent();
             }
             catch (Exception ex)
@@ -94,10 +85,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var project = _projectsCRUD.ReadById(id);
-                if (project == null)
-                {
-                    return NotFound($"Project with ID {id} not found.");
-                }
 
                 _projectsCRUD.Delete(id);
                 return NoContent();

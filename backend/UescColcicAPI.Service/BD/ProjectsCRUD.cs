@@ -88,14 +88,23 @@ namespace UescColcicAPI.Services.BD
             }
         }
 
-        public Project ReadById(int id)
+        public ProjectViewModel ReadById(int id)
         {
             var project = _context.Projects.FirstOrDefault(p => p.ProjectId == id);
             if (project == null)
             {
                 throw new InvalidOperationException($"Project with id {id} not found.");
             }
-            return project;
+            return new ProjectViewModel 
+            {
+                ProjectId = project.ProjectId,
+                Title = project.Title,
+                Description = project.Description,
+                Type = project.Type,
+                StartDate = project.StartDate,
+                EndDate = project.EndDate,
+                ProfessorId = project.ProfessorId
+            };
         }
 
         public List<ProjectViewModel> ReadAll()

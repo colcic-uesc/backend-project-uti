@@ -1,6 +1,7 @@
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 
 
 namespace UescColcicAPI.Services.BD
@@ -15,7 +16,7 @@ namespace UescColcicAPI.Services.BD
             _context = context;
         }
 
-        public int Create(SkillViewModel skillViewModel)
+        public int Create(SkillInputModel skillViewModel)
         {
             var skill = new Skill
             {
@@ -35,7 +36,7 @@ namespace UescColcicAPI.Services.BD
             return skill.SkillId; // O EF Core atualizará automaticamente o ID após o SaveChanges
         }
 
-        public void Update(int id, SkillViewModel skillViewModel)
+        public void Update(int id, SkillInputModel skillViewModel)
         {
             var skill = _context.Skills.FirstOrDefault(s => s.SkillId == id);
             if (skill != null)
@@ -64,14 +65,32 @@ namespace UescColcicAPI.Services.BD
             }
         }
 
-        public Skill ReadById(int id)
+        public SkillViewModel ReadById(int id)
         {
-            return _context.Skills.FirstOrDefault(s => s.SkillId == id);
+            var skill = _context.Skills.FirstOrDefault(s => s.SkillId == id);
+            if (skill == null)
+            {
+                throw new InvalidOperationException($"Project with id {id} not found.");
+            
+            }
+            return new SkillViewModel
+                {
+                    SkillId = skill.SkillId,
+                    Title = skill.Title,
+                    Description = skill.Description
+                };
         }
 
-        public IEnumerable<Skill> ReadAll()
+        public IEnumerable<SkillViewModel> ReadAll()
         {
-            return _context.Skills.ToList();
+           var skills = _context.Skills.Select(s => new SkillViewModel
+            {
+                SkillId = s.SkillId,
+                Title = s.Title,
+                Description = s.Description
+            });
+
+            return skills.ToList();
         }
     }
 }

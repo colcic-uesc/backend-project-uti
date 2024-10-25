@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 
 namespace UescColcicAPI.Controllers
 {
@@ -36,10 +37,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var student = _studentsCRUD.ReadById(id);
-                if (student == null)
-                {
-                    return NotFound($"Student with ID {id} not found.");
-                }
                 return Ok(student);
             }
             catch (Exception ex)
@@ -49,14 +46,12 @@ namespace UescColcicAPI.Controllers
         }
 
         [HttpPost(Name = "CreateStudent")]
-        public ActionResult Post([FromBody] StudentViewModel studentViewModel)
+        public ActionResult Post([FromBody] StudentInputModel studentInputModel)
         {
             try
             {
-                // Encaminha a criação para o serviço
-                int newStudentId = _studentsCRUD.Create(studentViewModel);
-
-                return CreatedAtRoute("GetStudent", new { id = newStudentId }, studentViewModel);
+                int newStudentId = _studentsCRUD.Create(studentInputModel);
+                return CreatedAtRoute("GetStudent", new { id = newStudentId }, studentInputModel);
             }
             catch (Exception ex)
             {
@@ -65,18 +60,12 @@ namespace UescColcicAPI.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdateStudent")]
-        public ActionResult Update(int id, [FromBody] StudentViewModel studentViewModel)
+        public ActionResult Update(int id, [FromBody] StudentInputModel studentInputModel)
         {
             try
             {
                 var existingStudent = _studentsCRUD.ReadById(id);
-                if (existingStudent == null)
-                {
-                    return NotFound($"Student with ID {id} not found.");
-                }
-
-                // Encaminha a atualização para o serviço
-                _studentsCRUD.Update(id, studentViewModel);
+                _studentsCRUD.Update(id, studentInputModel);
 
                 return NoContent();
             }
@@ -92,12 +81,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var student = _studentsCRUD.ReadById(id);
-                if (student == null)
-                {
-                    return NotFound($"Student with ID {id} not found.");
-                }
-
-                // Encaminha a exclusão para o serviço
                 _studentsCRUD.Delete(id);
 
                 return NoContent();

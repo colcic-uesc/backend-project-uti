@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 
 
 namespace UescColcicAPI.Controllers 
@@ -40,11 +41,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var skill = _skillsCRUD.ReadById(id);
-                if (skill == null)
-                {
-                    return NotFound($"Skill with ID {id} not found.");
-                }
-
                 return Ok(skill);
             }
             catch (Exception ex)
@@ -55,12 +51,12 @@ namespace UescColcicAPI.Controllers
 
         // POST: api/Skill
         [HttpPost(Name = "CreateSkill")]
-        public ActionResult Create([FromBody] SkillViewModel skillViewModel)
+        public ActionResult Create([FromBody] SkillInputModel skillInputModel)
         {
             try
             {
-                int newSkillId = _skillsCRUD.Create(skillViewModel);
-                return CreatedAtRoute("GetSkill", new { id = newSkillId }, skillViewModel);
+                int newSkillId = _skillsCRUD.Create(skillInputModel);
+                return CreatedAtRoute("GetSkill", new { id = newSkillId }, skillInputModel);
             }
             catch (Exception ex)
             {
@@ -70,17 +66,13 @@ namespace UescColcicAPI.Controllers
 
         // PUT: api/Skills/5
         [HttpPut("{id}", Name = "UpdateSkill")]
-        public ActionResult Update(int id, [FromBody] SkillViewModel skillViewModel)
+        public ActionResult Update(int id, [FromBody] SkillInputModel skillInputModel)
         {
             try
             {
                 var existingSkill = _skillsCRUD.ReadById(id);
-                if (existingSkill == null)
-                {
-                    return NotFound($"Skill with ID {id} not found.");
-                }
+                _skillsCRUD.Update(id, skillInputModel);
 
-                _skillsCRUD.Update(id, skillViewModel);
                 return NoContent();
             }
             catch (Exception ex)
@@ -96,12 +88,8 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var skill = _skillsCRUD.ReadById(id);
-                if (skill == null)
-                {
-                    return NotFound($"Skill with ID {id} not found.");
-                }
-
                 _skillsCRUD.Delete(id);
+
                 return NoContent();
             }
             catch (Exception ex)

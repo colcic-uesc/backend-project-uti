@@ -131,12 +131,12 @@ namespace UescColcicAPI.Services.BD
             Type = project.Type,
             StartDate = project.StartDate,
             EndDate = project.EndDate,
-            ProfessorId = professor.ProfessorId // Adicionando ProfessorId no ProjectViewModel
+            ProfessorId = professor.ProfessorId 
         }).ToList()
 
     });
 
-    return professors.ToList(); // Executa a consulta e retorna a lista
+    return professors.ToList(); 
 }
 
 

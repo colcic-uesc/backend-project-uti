@@ -41,11 +41,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var professor = _professorsCRUD.ReadById(id);
-                if (professor == null)
-                {
-                    return NotFound($"Professor with ID {id} not found.");
-                }
-
                 return Ok(professor); 
             }
             catch (Exception ex)
@@ -78,10 +73,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var existingProfessor = _professorsCRUD.ReadById(id);
-                if (existingProfessor == null)
-                {
-                    return NotFound($"Professor with ID {id} not found.");
-                }
 
                 _professorsCRUD.Update(id, professorInputModel);
                 return NoContent();
@@ -100,10 +91,6 @@ namespace UescColcicAPI.Controllers
             try
             {
                 var professor = _professorsCRUD.ReadById(id);
-                if (professor == null)
-                {
-                    return NotFound($"Professor with ID {id} not found.");
-                }
 
                 _professorsCRUD.Delete(id);
                 return NoContent();

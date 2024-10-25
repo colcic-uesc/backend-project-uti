@@ -1,16 +1,17 @@
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
 using System.Collections.Generic;
+using UescColcicAPI.Services.InputModels;
 
 namespace UescColcicAPI.Services.BD.Interfaces
 {
-    public interface IStudentsCRUD : IBaseCRUD<StudentViewModel, Student>
+    public interface IStudentsCRUD : IBaseCRUD<StudentViewModel, StudentInputModel>
     {
-        int Create(StudentViewModel student);
-        void Update(int id, StudentViewModel student);
+        int Create(StudentInputModel student);
+        void Update(int id, StudentInputModel student);
         void Delete(int id);
-        Student ReadById(int id);
-        IEnumerable<Student> ReadAll();
+        StudentViewModel ReadById(int id);
+        IEnumerable<StudentViewModel> ReadAll();
         
     }
 }

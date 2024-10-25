@@ -1,14 +1,15 @@
 using System;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 using System.Collections.Generic;
 
 namespace UescColcicAPI.Services.BD.Interfaces;
-public interface ISkillsCRUD : IBaseCRUD<SkillViewModel, SkillViewModel>
+public interface ISkillsCRUD : IBaseCRUD<SkillViewModel, SkillInputModel>
 {
-    int Create(SkillViewModel skill);
-    void Update(int id, SkillViewModel skill);
+    int Create(SkillInputModel skill);
+    void Update(int id, SkillInputModel skill);
     void Delete(int id);
-    Skill ReadById(int id);
-    IEnumerable<Skill> ReadAll();
+    SkillViewModel ReadById(int id);
+    IEnumerable<SkillViewModel> ReadAll();
 }

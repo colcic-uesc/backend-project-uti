@@ -1,6 +1,7 @@
 ﻿using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.ViewModels;
+using UescColcicAPI.Services.InputModels;
 
 
 namespace UescColcicAPI.Services.BD
@@ -15,7 +16,7 @@ namespace UescColcicAPI.Services.BD
             _context = context;
         }
 
-        public int Create(StudentViewModel studentViewModel)
+        public int Create(StudentInputModel studentViewModel)
         {
             var student = new Student
             {
@@ -38,7 +39,7 @@ namespace UescColcicAPI.Services.BD
             return student.StudentId; // O EF Core atualizará automaticamente o ID após o SaveChanges
         }
 
-        public void Update(int id, StudentViewModel studentViewModel)
+        public void Update(int id, StudentInputModel studentViewModel)
         {
             var student = _context.Students.FirstOrDefault(s => s.StudentId == id);
             if (student != null)
@@ -70,14 +71,36 @@ namespace UescColcicAPI.Services.BD
             }
         }
 
-        public Student ReadById(int id)
+        public StudentViewModel ReadById(int id)
         {
-            return _context.Students.FirstOrDefault(s => s.StudentId == id);
+            var student = _context.Students.FirstOrDefault(s => s.StudentId == id);
+            if (student == null)
+            {
+                throw new InvalidOperationException($"Student with id {id} not found.");
+            }
+            return new StudentViewModel
+            {
+                StudentId = student.StudentId,
+                Registration = student.Registration,
+                Name = student.Name,
+                Email = student.Email,
+                Course = student.Course,
+                Bio = student.Bio
+            };
         }
 
-        public IEnumerable<Student> ReadAll()
+        public IEnumerable<StudentViewModel> ReadAll()
         {
-            return _context.Students.ToList();
+            var student = _context.Students.ToList();
+            return student.Select(s => new StudentViewModel
+            {
+                StudentId = s.StudentId,
+                Registration = s.Registration,
+                Name = s.Name,
+                Email = s.Email,
+                Course = s.Course,
+                Bio = s.Bio
+            });
         }
     }
 }
