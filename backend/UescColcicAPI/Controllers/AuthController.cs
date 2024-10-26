@@ -17,7 +17,7 @@ namespace UescColcicAPI.Controllers
     }
     
     [HttpPost("login")]
-    public IActionResult Login([FromBody] UserLoginDto userLogin)
+    public IActionResult Login([FromBody] User userLogin)
     {
         // Valide o usuário (exemplo simplificado)
         if (userLogin.Username == "string" && userLogin.Password == "string")

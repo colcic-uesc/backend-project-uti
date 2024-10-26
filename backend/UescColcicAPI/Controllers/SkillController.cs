@@ -10,11 +10,11 @@ namespace UescColcicAPI.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class SkillsController : ControllerBase 
+    public class SkillController : ControllerBase 
     {
         private readonly ISkillsCRUD _skillsCRUD;
 
-        public SkillsController(ISkillsCRUD skillsCRUD)
+        public SkillController(ISkillsCRUD skillsCRUD)
         {
             _skillsCRUD = skillsCRUD;
         }

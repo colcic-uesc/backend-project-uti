@@ -51,7 +51,6 @@ namespace UescColcicAPI.Controllers
 
         // POST: api/Professors
         [HttpPost(Name = "CreateProfessor")]
-        [Authorize]
         public ActionResult Create([FromBody] ProfessorInputModel professorInputModel)
         {
             try
@@ -67,7 +66,7 @@ namespace UescColcicAPI.Controllers
 
         
         [HttpPut("{id}", Name = "UpdateProfessor")]
-        [Authorize]
+
         public ActionResult Update(int id, [FromBody] ProfessorInputModel professorInputModel)
         {
             try
@@ -85,7 +84,7 @@ namespace UescColcicAPI.Controllers
 
         
         [HttpDelete("{id}", Name = "DeleteProfessor")]
-        [Authorize]
+       
         public ActionResult Delete(int id)
         {
             try
