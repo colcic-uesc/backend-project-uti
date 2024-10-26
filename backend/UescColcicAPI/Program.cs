@@ -33,17 +33,13 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<UescColcicAPIDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("UescColcicDb");
-    var serverVersion = ServerVersion.AutoDetect(connectionString);
-    options.UseMySql(connectionString, serverVersion);
-});
+builder.Services.AddDbContext<UescColcicAPIDbContext>();
 
 builder.Services.AddScoped<IStudentsCRUD, StudentsCRUD>();
 builder.Services.AddScoped<IProfessorsCRUD, ProfessorsCRUD>();
 builder.Services.AddScoped<IProjectsCRUD, ProjectsCRUD>();
 builder.Services.AddScoped<ISkillsCRUD, SkillsCRUD>();
+builder.Services.AddScoped<IUserCRUD, UsersCRUD>();  
 builder.Services.AddScoped<AuthService>();
 
 // Configuração do Swagger
