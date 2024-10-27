@@ -10,4 +10,5 @@ public class User
     public string Roles { get; set; }   
 
     public virtual List<Professor> Professores { get; set; } = new List<Professor>();
+    public virtual List<Student> Students { get; set; } = new List<Student>();
 }

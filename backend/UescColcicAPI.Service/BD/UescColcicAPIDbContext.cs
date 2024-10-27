@@ -35,6 +35,13 @@ namespace UescColcicAPI.Services.BD
 
             modelBuilder.Entity<Project>().HasKey(x => x.ProjectId);
             modelBuilder.Entity<Student>().HasKey(x => x.StudentId);
+
+            modelBuilder.Entity<Student>()
+                .HasOne<User>(x => x.User)
+                .WithMany(x => x.Students)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
             modelBuilder.Entity<Skill>().HasKey(x => x.SkillId);
             modelBuilder.Entity<User>().HasKey(x=> x.UserId);
         }
