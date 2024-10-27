@@ -23,7 +23,6 @@ namespace UescColcicAPI.Services.Auth
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                // Adicione as roles como claims, se necessário
                 new Claim(ClaimTypes.Role, user.Roles)
             };
 

@@ -1,0 +1,1 @@
+Data/Hora: 27/10/2024 02:00:36 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Professors, Tempo de Processamento: 3146ms
