@@ -11,6 +11,7 @@ public interface IUserCRUD : IBaseCRUD<UserViewModel, UserInputModel>
     void Delete(int id);
     UserViewModel ReadById(int id);
     IEnumerable<UserViewModel> ReadAll();
+    User GetUserByUsername(string username);
     
 }
 

@@ -93,5 +93,10 @@ namespace UescColcicAPI.Services.BD
                 Roles = u.Roles
             });
         }
+
+        public User GetUserByUsername(string username)
+        {
+            return _context.Users.SingleOrDefault(u => u.Username == username);
+        }
     }
 }
