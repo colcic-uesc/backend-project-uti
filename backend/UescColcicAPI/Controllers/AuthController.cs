@@ -1,33 +1,34 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Core;
 using UescColcicAPI.Services.Auth;
+using UescColcicAPI.Services.InputModels;
+using UescColcicAPI.Services.ViewModel;
+using UescColcicAPI.Services.ViewModels;
+
 namespace UescColcicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        
-    private readonly AuthService _authService;
+        private readonly AuthService _authService;
 
-    public AuthController(AuthService authService)
-    {
-        _authService = authService;
-    }
-    
-    [HttpPost("login")]
-    public IActionResult Login([FromBody] User userLogin)
-    {
-        // Valide o usuário (exemplo simplificado)
-        if (userLogin.Username == "string" && userLogin.Password == "string")
+        public AuthController(AuthService authService)
         {
-            var token = _authService.GenerateJwtToken();
-            return Ok(new { token });
+            _authService = authService;
         }
 
-        return Unauthorized();
-    }
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginInputModel userLogin)
+        {
+            var user = _authService.ValidateUser(userLogin.Username, userLogin.Password);
+            if (user != null)
+            {
+                var token = _authService.GenerateJwtToken(user);
+                return Ok(new { token });
+            }
 
+            return Unauthorized();
+        }
     }
 }
