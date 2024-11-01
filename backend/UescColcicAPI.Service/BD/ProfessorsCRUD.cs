@@ -27,7 +27,8 @@ namespace UescColcicAPI.Services.BD
                 Name = professorInputModel.Name,
                 Email = professorInputModel.Email,
                 Department = professorInputModel.Department,
-                Bio = professorInputModel.Bio
+                Bio = professorInputModel.Bio,
+                UserId = professorInputModel.UserId
             };
 
             // Verificar se já existe um professor com o mesmo email
@@ -57,6 +58,7 @@ namespace UescColcicAPI.Services.BD
                 professor.Email = professorInputModel.Email;
                 professor.Department = professorInputModel.Department;
                 professor.Bio = professorInputModel.Bio;
+                professor.UserId = professorInputModel.UserId;
 
                 _context.Professors.Update(professor);
                 _context.SaveChanges();

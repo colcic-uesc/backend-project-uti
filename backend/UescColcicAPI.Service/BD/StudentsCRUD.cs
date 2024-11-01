@@ -24,7 +24,8 @@ namespace UescColcicAPI.Services.BD
                 Name = studentViewModel.Name,
                 Email = studentViewModel.Email,
                 Course = studentViewModel.Course,
-                Bio = studentViewModel.Bio
+                Bio = studentViewModel.Bio,
+                UserId = studentViewModel.UserId
             };
 
             // Verificar se já existe um estudante com o mesmo registro
@@ -55,6 +56,7 @@ namespace UescColcicAPI.Services.BD
                 student.Registration = studentViewModel.Registration;
                 student.Course = studentViewModel.Course;
                 student.Bio = studentViewModel.Bio;
+                student.UserId = studentViewModel.UserId;
 
                 _context.Students.Update(student);
                 _context.SaveChanges();

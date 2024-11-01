@@ -10,6 +10,7 @@ namespace UescColcicAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize (Roles = "Admin")]
     public class ProfessorsController : ControllerBase
     {
         private readonly IProfessorsCRUD _professorsCRUD;

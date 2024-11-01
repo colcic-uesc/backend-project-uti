@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using UescColcicAPI.Services.BD.Interfaces;
 using UescColcicAPI.Services.ViewModels;
 using UescColcicAPI.Services.InputModels;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace UescColcicAPI.Controllers 
 {
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize (Roles = "Admin")]
     public class SkillController : ControllerBase 
     {
         private readonly ISkillsCRUD _skillsCRUD;

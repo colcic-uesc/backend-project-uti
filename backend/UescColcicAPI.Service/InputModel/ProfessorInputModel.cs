@@ -6,5 +6,7 @@ public class ProfessorInputModel
     public string? Email { get; set; }
     public string? Department { get; set; }
     public string? Bio { get; set; }
+    public required int UserId { get; set; }    
+
 
 }

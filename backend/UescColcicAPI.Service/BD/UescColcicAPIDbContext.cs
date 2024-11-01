@@ -6,9 +6,18 @@ namespace UescColcicAPI.Services.BD
 {
     public class UescColcicAPIDbContext : DbContext
     {
-         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        private readonly IConfiguration _configuration;
+
+        
+        public UescColcicAPIDbContext(IConfiguration configuration)
         {
-            var connectionString = "Server=localhost;Database=colcicdb;User=root;Password=251417@BAV;";
+            _configuration = configuration;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            
+            var connectionString = _configuration.GetConnectionString("UescColcicDb");
             optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)));
         }
 

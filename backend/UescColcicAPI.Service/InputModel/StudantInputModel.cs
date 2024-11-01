@@ -7,5 +7,6 @@ namespace UescColcicAPI.Services.InputModels;
         public string? Registration { get; set; }
         public string? Course { get; set; } 
         public string? Bio { get; set; } 
+        public required int UserId { get; set; }
     }
 
