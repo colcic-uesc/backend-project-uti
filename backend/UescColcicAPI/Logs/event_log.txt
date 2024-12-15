@@ -1,0 +1,16 @@
+Data/Hora: 15/12/2024 09:43:17 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Professors, Tempo de Processamento: 7186ms
+Data/Hora: 15/12/2024 09:43:40 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Professors, Tempo de Processamento: 69ms
+Data/Hora: 15/12/2024 09:45:52 -03:00, IP do Cliente: ::1, Possui Token JWT: False, Método: GET, URL: /api/Professors, Tempo de Processamento: 148ms
+Data/Hora: 15/12/2024 09:45:53 -03:00, IP do Cliente: ::1, Possui Token JWT: False, Método: GET, URL: /favicon.ico, Tempo de Processamento: 0ms
+Data/Hora: 15/12/2024 10:00:23 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: POST, URL: /api/Professors, Tempo de Processamento: 487ms
+Data/Hora: 15/12/2024 10:05:48 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Projects, Tempo de Processamento: 67ms
+Data/Hora: 15/12/2024 10:06:04 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: DELETE, URL: /api/Projects/1, Tempo de Processamento: 787ms
+Data/Hora: 15/12/2024 10:06:15 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Projects, Tempo de Processamento: 2ms
+Data/Hora: 15/12/2024 10:06:23 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Professors, Tempo de Processamento: 7ms
+Data/Hora: 15/12/2024 18:29:15 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students, Tempo de Processamento: 4422ms
+Data/Hora: 15/12/2024 18:29:42 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students/2, Tempo de Processamento: 552ms
+Data/Hora: 15/12/2024 19:35:26 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students, Tempo de Processamento: 4534ms
+Data/Hora: 15/12/2024 19:35:51 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students/registration/string, Tempo de Processamento: 398ms
+Data/Hora: 15/12/2024 19:37:46 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students, Tempo de Processamento: 3543ms
+Data/Hora: 15/12/2024 19:40:06 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students/registration/strih, Tempo de Processamento: 3886ms
+Data/Hora: 15/12/2024 19:40:38 -03:00, IP do Cliente: 127.0.0.1, Possui Token JWT: False, Método: GET, URL: /api/Students/registration/string, Tempo de Processamento: 277ms

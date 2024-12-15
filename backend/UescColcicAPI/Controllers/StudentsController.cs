@@ -97,10 +97,28 @@ namespace UescColcicAPI.Controllers
                     return NotFound($"Student with ID {id} not found.");
                 }
 
-                // Encaminha a exclusão para o serviço
+                
                 _studentsCRUD.Delete(id);
 
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("registration/{registration}", Name = "GetStudentByRegistration")]
+        public ActionResult<StudentViewModel> GetByRegistration(string registration)
+        {
+            try
+            {
+                var student = _studentsCRUD.ReadByRegistration(registration);
+                if (student == null)
+                {
+                    return NotFound($"Student with registration {registration} not found.");
+                }
+                return Ok(student);
             }
             catch (Exception ex)
             {

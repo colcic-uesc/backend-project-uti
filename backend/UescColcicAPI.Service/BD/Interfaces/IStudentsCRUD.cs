@@ -11,6 +11,7 @@ namespace UescColcicAPI.Services.BD.Interfaces
         void Delete(int id);
         Student ReadById(int id);
         IEnumerable<Student> ReadAll();
+        Student ReadByRegistration(string registration);
         
     }
 }

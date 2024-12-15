@@ -79,5 +79,10 @@ namespace UescColcicAPI.Services.BD
         {
             return _context.Students.ToList();
         }
+
+        public Student ReadByRegistration(string registration)
+        {
+            return _context.Students.FirstOrDefault(s => s.Registration == registration);
+        }
     }
 }
