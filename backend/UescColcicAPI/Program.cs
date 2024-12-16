@@ -33,6 +33,17 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
+// Adicionar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.WithOrigins("your-server-frontend")  // Permitir o frontend https//localhost:8080
+              .AllowAnyHeader()                      // Permitir qualquer cabeçalho
+              .AllowAnyMethod();                      // Permitir qualquer método (GET, POST, etc.)
+    });
+});
+
 builder.Services.AddDbContext<UescColcicAPIDbContext>();
 
 
@@ -55,6 +66,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowLocalhost");  // Adicionar CORS antes de autenticação
 
 // Middleware de autenticação JWT
 app.UseAuthentication();
